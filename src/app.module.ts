@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
+import { ShortcutsModule } from "./shortcuts/shortcuts.module";
 
 @Module({
-    imports: [],
+    imports: [ShortcutsModule],
     controllers: [],
     providers: [],
 })
