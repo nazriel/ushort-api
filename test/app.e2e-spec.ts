@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import { AppModule } from "./../src/app.module";
 
-describe("AppController (e2e)", () => {
+describe("AppModule", () => {
     let app: INestApplication;
 
     beforeEach(async () => {
@@ -12,5 +12,9 @@ describe("AppController (e2e)", () => {
 
         app = moduleFixture.createNestApplication();
         await app.init();
+    });
+
+    it("should be initialized", () => {
+        expect(app).toBeDefined();
     });
 });
