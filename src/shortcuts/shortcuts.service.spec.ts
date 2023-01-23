@@ -15,4 +15,14 @@ describe("ShortcutsService", () => {
     it("should be defined", () => {
         expect(service).toBeDefined();
     });
+
+    describe("findOneByHash", () => {
+        it("should return valid shortcut for existing object", () => {
+            expect(service.findOneByHash("url-1")).toBeDefined();
+        });
+
+        it("should return null for non-existing object", () => {
+            expect(service.findOneByHash("non-existing")).toBeNull();
+        });
+    });
 });
