@@ -32,4 +32,49 @@ describe("Shortcuts", () => {
                 .expect(404);
         });
     });
+
+    describe("GraphQL query to findOneByHash", () => {
+        it("should return 404 when shortcut does not exist", () => {
+            return request(app.getHttpServer())
+                .post("/graphql")
+                .send({
+                    query: `{
+                        shortcut(hash: "non-existing") {
+                            url
+                            hash
+                        }
+                    }`,
+                })
+
+                .expect(200)
+                .expect((res: request.Response) => {
+                    expect(res.body.errors).toBeDefined();
+                    expect(res.body.errors[0].message).toBe(
+                        "shortcut not found",
+                    );
+                });
+        });
+
+        it("should provide shortcut when it exists", () => {
+            return request(app.getHttpServer())
+                .post("/graphql")
+                .send({
+                    query: `{
+                        shortcut(hash: "url-0") {
+                            url
+                            hash
+                        }
+                    }`,
+                })
+                .expect(200)
+                .expect((res: request.Response) => {
+                    const shortcut = res.body?.data?.shortcut;
+                    expect(shortcut).toBeDefined();
+                    expect(shortcut.url).toBeDefined();
+                    expect(shortcut.hash).toBeDefined();
+                    expect(shortcut.url).toBe("https://google.com/0");
+                    expect(shortcut.hash).toBe("url-0");
+                });
+        });
+    });
 });
