@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
-import { ShortcutsModule } from "./../src/shortcuts/shortcuts.module";
+import { AppModule } from "./../src/app.module";
 import * as request from "supertest";
 
 describe("Shortcuts", () => {
@@ -8,7 +8,7 @@ describe("Shortcuts", () => {
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [ShortcutsModule],
+            imports: [AppModule],
         }).compile();
 
         app = moduleFixture.createNestApplication();
@@ -19,8 +19,8 @@ describe("Shortcuts", () => {
         expect(app).toBeDefined();
     });
 
-    describe("main route for redirects", () => {
-        it("should provide shortcut details when it exists", () => {
+    describe("REST query to findOneByHash", () => {
+        it("should provide shortcut when it exists", () => {
             return request(app.getHttpServer())
                 .get("/shortcuts/url-1")
                 .expect(200);
