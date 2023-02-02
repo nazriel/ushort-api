@@ -1,6 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
+import { PrismaService } from "./prisma.service";
 import { ShortcutsModule } from "./shortcuts/shortcuts.module";
 
 @Module({
@@ -14,6 +15,6 @@ import { ShortcutsModule } from "./shortcuts/shortcuts.module";
         }),
     ],
     controllers: [],
-    providers: [],
+    providers: [PrismaService],
 })
 export class AppModule {}
