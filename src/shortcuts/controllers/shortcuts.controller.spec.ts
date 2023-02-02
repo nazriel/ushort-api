@@ -1,5 +1,6 @@
 import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
+import { PrismaService } from "../../prisma.service";
 import { ShortcutsService } from "../shortcuts.service";
 import { ShortcutsController } from "./shortcuts.controller";
 
@@ -9,7 +10,7 @@ describe("ShortcutsController", () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [ShortcutsController],
-            providers: [ShortcutsService],
+            providers: [ShortcutsService, PrismaService],
         }).compile();
 
         controller = module.get<ShortcutsController>(ShortcutsController);

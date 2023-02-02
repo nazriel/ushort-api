@@ -3,12 +3,13 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { Shortcut } from "./entities/shortcut.entity";
 import { ShortcutsService } from "./shortcuts.service";
 import { ShortcutsResolver } from "./shortcuts.resolver";
+import { PrismaService } from "..//prisma.service";
 
 describe("ShortcutsResolver", () => {
     let resolver: ShortcutsResolver;
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [ShortcutsResolver, ShortcutsService],
+            providers: [ShortcutsResolver, ShortcutsService, PrismaService],
         }).compile();
 
         resolver = module.get<ShortcutsResolver>(ShortcutsResolver);
