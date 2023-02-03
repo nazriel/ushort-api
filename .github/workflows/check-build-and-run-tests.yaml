@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 19.x]
+        node-version: [18.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -29,7 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 19.x]
+        node-version: [18.x]
+    env:
+      DATABASE_URL: mongodb://localhost:27017/ushort
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -38,14 +40,21 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm install
+      - name: Setup MongoDB
+        run: docker compose -f docker-compose.dev.yaml up -d
       - run: npm run test
+      - name: Clean-up MongoDB
+        if: always()
+        run: docker compose -f docker-compose.dev.yaml down -v
 
   test-integration:
     needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 19.x]
+        node-version: [18.x]
+    env:
+      DATABASE_URL: mongodb://localhost:27017/ushort
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -54,5 +63,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm install
+      - name: Setup MongoDB
+        run: docker compose -f docker-compose.dev.yaml up -d
       - run: npm run test:e2e
+      - name: Clean-up MongoDB
+        if: always()
+        run: docker compose -f docker-compose.dev.yaml down -v
 
